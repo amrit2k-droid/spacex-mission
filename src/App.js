@@ -249,7 +249,7 @@ class App extends Component {
                      ))}
                    </ul>
                    <p>Launch year: <span style={{color: 'lightblue'}}>{flight.launch_year}</span></p>
-                   <p>Successful launch: <span style={{color: 'lightblue'}}>{flight.lanch_success ? "true" : "false"}</span></p>
+                   <p>Successful launch: <span style={{color: 'lightblue'}}>{flight.launch_success ? "true" : "false"}</span></p>
                    <p>Successful landing: <span style={{color: 'lightblue'}}>landingText</span></p>
                  </div>
                 </div>
