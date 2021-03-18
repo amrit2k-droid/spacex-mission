@@ -21,7 +21,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
  ## Tech Stack and Packages
  
  `React`
- `axios` for fetching data
+ `axios for fetching data`
  
  use `npm start` to start the app.
 
