@@ -35,8 +35,8 @@ class App extends Component {
   }
 
   selectLaunchYrHandler = (index) => {
-    if(this.state.selectedLaunchSuccess != '' && this.state.selectedLandingSuccess != '') {
-      axios("https://api.spacexdata.com/v3/launches?limit=100&launch_success=" + this.state.selectedLaunchSuccess +
+    if(this.state.selectedLaunchSuccess !== '' && this.state.selectedLandingSuccess !== '') {
+      axios.get("https://api.spacexdata.com/v3/launches?limit=100&launch_success=" + this.state.selectedLaunchSuccess +
             "&land_success=" + this.state.selectedLandingSuccess + "&launch_year=" + this.selectYear[index].innerHTML)
             .then(res => {
               const flightData = res.data;
@@ -47,8 +47,32 @@ class App extends Component {
               })
             })
     }
+    else if(this.state.selectedLaunchSuccess === '' && this.state.selectedLandingSuccess !== '') {
+      axios.get("https://api.spacexdata.com/v3/launches?limit=100&land_success=" + this.state.selectedLandingSuccess
+                + "&launch_year=" + this.selectYear[index].innerHTML)
+                .then(res => {
+                  const flightData = res.data;
+                  this.setState({
+                    flights: flightData,
+                    selectedYrOfLaunch: this.selectYear[index].innerHTML,
+                    index1: index
+                  })
+                })
+    }
+    else if(this.state.selectedLaunchSuccess !== '' && this.state.selectedLandingSuccess === '') {
+      axios.get("https://api.spacexdata.com/v3/launches?limit=100&launch_success=" + this.state.selectedLaunchSuccess
+                + "&launch_year=" + this.selectYear[index].innerHTML)
+                .then(res => {
+                  const flightData = res.data;
+                  this.setState({
+                    flights: flightData,
+                    selectedYrOfLaunch: this.selectYear[index].innerHTML,
+                    index1: index
+                  })
+                })
+    }
     else {
-      axios("https://api.spacexdata.com/v3/launches?limit=100&launch_year=" + this.selectYear[index].innerHTML)
+      axios.get("https://api.spacexdata.com/v3/launches?limit=100&launch_year=" + this.selectYear[index].innerHTML)
         .then(res => {
           console.log(res.data);
           const flightData = res.data;
@@ -63,7 +87,44 @@ class App extends Component {
 
   selectLaunchSuccess = index => {
  //   console.log(this.launch[index].innerHTML);
-    axios("https://api.spacexdata.com/v3/launches?limit=100&launch_success=" + this.launch[index].innerHTML)
+    if(this.state.selectedYrOfLaunch !== '' && this.selectedLandingSuccess !== '') {
+      axios.get("https://api.spacexdata.com/v3/launches?limit=100&launch_year=" + this.state.selectedYrOfLaunch +
+                "&land_success=" + this.state.selectedLandingSuccess + "&launch_success=" + this.launch[index].innerHTML)
+                .then(res => {
+                  const flightData = res.data;
+                  this.setState({
+                    flights: flightData,
+                    selectedLaunchSuccess: this.launch[index].innerHTML,
+                    index2: index
+                })
+              })
+    }
+    else if(this.state.selectedYrOfLaunch === '' && this.state.selectedLandingSuccess !=='') {
+      axios.get("https://api.spacexdata.com/v3/launches?limit=100&land_success=" + this.state.selectedLandingSuccess +
+                "&launch_success=" + this.launch[index].innerHTML)
+                .then(res => {
+                  const flightData = res.data;
+                  this.setState({
+                    flights: flightData,
+                    selectedLaunchSuccess: this.launch[index].innerHTML,
+                    index2: index
+                })
+                })
+    }
+    else if(this.state.selectedYrOfLaunch !== '' && this.state.selectedLandingSuccess === '') {
+      axios.get("https://api.spacexdata.com/v3/launches?limit=100&launch_year=" + this.state.selectedYrOfLaunch +
+                "&launch_success=" + this.launch[index].innerHTML)
+                .then(res => {
+                  const flightData = res.data;
+                  this.setState({
+                    flights: flightData,
+                    selectedLaunchSuccess: this.launch[index].innerHTML,
+                    index2: index
+                })
+                })
+    }
+    else {
+      axios.get("https://api.spacexdata.com/v3/launches?limit=100&launch_success=" + this.launch[index].innerHTML)
       .then(res => {
         console.log(res.data);
         const flightData = res.data;
@@ -73,19 +134,59 @@ class App extends Component {
           index2: index
         })
       })
+    }
   }
 
   selectLandingSuccess = index => {
-    axios("https://api.spacexdata.com/v3/launches?limit=100&launch_success=" + this.state.selectedLaunchSuccess + "&land_success=" + 
-          + this.landing[index].innerHTML)
-          .then(res => {
-            const flightData = res.data;
-            this.setState({
-              flights: flightData,
-              selectedLandingSuccess: this.landing[index].innerHTML,
-              index3: index
-            })
-          })
+    if(this.state.selectedLaunchSuccess !== '' && this.state.selectedYrOfLaunch !== '') {
+      axios.get("https://api.spacexdata.com/v3/launches?limit=100&launch_success=" + this.state.selectedLaunchSuccess +
+                "&launch_year=" + this.state.selectedYrOfLaunch + "&land_success=" + this.landing[index].innerHTML)
+                .then(res => {
+                  const flightData = res.data;
+                  this.setState({
+                    flights: flightData,
+                    selectedLandingSuccess: this.landing[index].innerHTML,
+                    index3: index
+                  })
+                })
+    }
+    else if(this.state.selectedLaunchSuccess !== '' && this.state.selectedYrOfLaunch === '') {
+      axios.get("https://api.spacexdata.com/v3/launches?limit=100&launch_success=" + this.state.selectedLaunchSuccess + 
+                "&land_success=" + this.landing[index].innerHTML)
+                .then(res => {
+                  const flightData = res.data;
+                  this.setState({
+                    flights: flightData,
+                    selectedLandingSuccess: this.landing[index].innerHTML,
+                    index3: index
+                  })
+                })
+    }
+    else if(this.state.selectedLaunchSuccess === '' && this.state.selectedYrOfLaunch !== '') {
+      axios.get("https://api.spacexdata.com/v3/launches?limit=100&launch_year=" + this.state.selectedYrOfLaunch + 
+                "&land_success=" + this.landing[index].innerHTML)
+                .then(res => {
+                  const flightData = res.data;
+                  this.setState({
+                    flights: flightData,
+                    selectedLandingSuccess: this.landing[index].innerHTML,
+                    index3: index
+                  })
+                })
+    }
+    else {
+      axios.get("https://api.spacexdata.com/v3/launches?limit=100&launch_success=" + this.state.selectedLaunchSuccess + "&land_success=" + 
+      + this.landing[index].innerHTML)
+      .then(res => {
+        const flightData = res.data;
+        this.setState({
+          flights: flightData,
+          selectedLandingSuccess: this.landing[index].innerHTML,
+          index3: index
+        })
+      })
+    }
+   
   }
 
   render() {
@@ -131,7 +232,7 @@ class App extends Component {
             </div>
           </div>
           <div className="dash">
-          {this.state.flights.map(flight => (
+          {this.state.flights.length > 0 ? this.state.flights.map(flight => (
             <div className="row">
             <div className="col s12 m7">
               <div className="card">
@@ -155,7 +256,7 @@ class App extends Component {
               </div>
             </div>
           </div>
-          ))}
+          )) : <div>No records available!</div>}
           </div>
         </div>  
     )
